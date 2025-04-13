@@ -1,30 +1,69 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { Product } from '../types';
-
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
+import { useCartStore } from '@/stores/cartStore';
+import { Product } from '@/types/product';
 
 interface ProductCardProps {
   product: Product;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const navigate = useNavigate();
+export const ProductCard = ({ product }: ProductCardProps) => {
+  const { addItem } = useCartStore();
+
+  const handleAddToCart = () => {
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    });
+  };
+
   return (
-    <div className="max-w-sm overflow-hidden rounded bg-white shadow-lg" onClick={() => navigate(`/products/${product.id}`)}>
-      <img className="h-48 w-full object-contain p-4" src={product.image} alt={product.title} />
-      <div className="px-6 py-4">
-        <div className="mb-2 truncate text-xl font-bold" title={product.title}>{product.title}</div>
-        <p className="line-clamp-2 text-base text-gray-700">{product.description}</p>
-      </div>
-      <div className="px-6 pb-2 pt-4">
-        <span className="mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700">
-          ${product.price}
-        </span>
-        <span className="inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700">
-          ⭐ {product.rating.rate} ({product.rating.count})
-        </span>
-      </div>
-    </div>
+    <Card className="group overflow-hidden transition-all hover:shadow-md">
+      <Link to={`/products/${product.slug}`} className="block">
+        <div className="relative aspect-square overflow-hidden">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          {product.isNew && (
+            <span className="absolute left-2 top-2 rounded-md bg-green-500 px-2 py-1 text-xs font-medium text-white">
+              New
+            </span>
+          )}
+          {product.isBestSeller && (
+            <span className="absolute left-2 top-2 rounded-md bg-amber-500 px-2 py-1 text-xs font-medium text-white">
+              Best Seller
+            </span>
+          )}
+        </div>
+      </Link>
+      <CardContent className="p-4">
+        <Link to={`/products/${product.id}`} className="block">
+          <CardTitle className="line-clamp-1 text-base font-medium">
+            {product.name}
+          </CardTitle>
+          <div className="mt-2 font-medium text-primary">
+            {new Intl.NumberFormat('vi-VN', {
+              style: 'currency',
+              currency: 'VND',
+            }).format(product.price)}
+          </div>
+        </Link>
+      </CardContent>
+      <CardFooter className="p-4 pt-0">
+        <Button 
+          onClick={handleAddToCart}
+          className="w-full"
+          variant="outline"
+        >
+          Thêm vào giỏ
+        </Button>
+      </CardFooter>
+    </Card>
   );
-}; 
+};
