@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-import { Button } from '@/components/ui/button';
-import { getProductBySlug, getProductsByType } from '../api/getProducts';
 import { ProductCard } from './ProductCard';
+import { getProductBySlug, getProductsByType } from '../api/getProducts';
+
+import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/stores/cartStore';
 
 const ProductDetail = () => {
@@ -44,6 +45,7 @@ const ProductDetail = () => {
       name: product.name,
       price: product.price,
       image: product.image,
+      quantity: quantity,
     });
   };
 

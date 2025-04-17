@@ -55,7 +55,7 @@ export const Header = () => {
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0">
-            <h1 className="text-2xl font-bold text-primary">Nguyễn Sơn Bakery</h1>
+            <h1 className="text-2xl font-bold text-primary">Cosmo Bakery</h1>
           </Link>
 
           {/* Desktop Navigation */}

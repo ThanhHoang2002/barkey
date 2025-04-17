@@ -225,7 +225,7 @@ const ContactPage = () => {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Nguyễn Sơn Bakery Location"
+                title="Cosmo Bakery Location"
               ></iframe>
             </div>
           </div>

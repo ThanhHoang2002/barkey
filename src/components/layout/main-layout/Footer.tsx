@@ -11,7 +11,7 @@ export const Footer = () => {
           <div>
             <h3 className="mb-4 text-lg font-bold">Giới thiệu</h3>
             <p className="mb-4 text-sm text-gray-300">
-              Xuất thân trong gia đình có nghề làm bánh mỳ truyền thống, Chef Nguyễn Sơn cũng có thời gian dài làm việc tại Công ty Bodega rồi Sofitel Metropole. Anh có hơn 10 năm kinh nghiệm làm Chef bánh tại khách sạn danh tiếng Sofitel Metropole Legende Hanoi.
+              Xuất thân trong gia đình có nghề làm bánh mỳ truyền thống, Chef Đức Cường cũng có thời gian dài làm việc tại Công ty Bodega rồi Sofitel Metropole. Anh có hơn 10 năm kinh nghiệm làm Chef bánh tại khách sạn danh tiếng Sofitel Metropole Legende Hanoi.
             </p>
             <div className="flex space-x-4">
               <a
@@ -186,7 +186,7 @@ export const Footer = () => {
       <div className="border-t border-gray-800 py-6">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm text-gray-400">
-            &copy; {new Date().getFullYear()} Nguyễn Sơn Bakery. Tất cả các quyền được bảo lưu.
+            &copy; {new Date().getFullYear()} Cosmo Bakery. Tất cả các quyền được bảo lưu.
           </p>
         </div>
       </div>

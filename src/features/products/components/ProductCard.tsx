@@ -18,6 +18,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       name: product.name,
       price: product.price,
       image: product.image,
+      quantity: 1,
     });
   };
 

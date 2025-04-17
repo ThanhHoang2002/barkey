@@ -1,10 +1,13 @@
+/* eslint-disable unused-imports/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+import { ProductCard } from './ProductCard';
+import { getAllProducts, getProductsByType } from '../api/getProducts';
+
 import { Button } from '@/components/ui/button';
 import { getCategories } from '@/features/categories/api/getCategories';
-import { getAllProducts, getProductsByType } from '../api/getProducts';
-import { ProductCard } from './ProductCard';
 import { Category, Product, ProductFilter } from '@/types/product';
 
 const ProductsPage = () => {
