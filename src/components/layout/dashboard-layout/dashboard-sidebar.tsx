@@ -86,8 +86,7 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           {/* Logo */}
           <NavLink to="/" className="block">
             <div className="flex items-center">
-              <Cake className="h-8 w-8 text-primary" />
-              <span className="ml-2 text-lg font-bold text-foreground">Bakery Admin</span>
+              <span className="ml-2 text-lg font-bold text-foreground">Cosmo Bakery Admin</span>
             </div>
           </NavLink>
           {/* Close button (mobile only) */}
