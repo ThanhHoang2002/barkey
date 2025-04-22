@@ -2,6 +2,8 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React from 'react';
 
+import { ScrollBehaviorProvider } from '@/components/providers/ScrollBehaviorProvider';
+import { Toaster } from '@/components/ui/toaster';
 import { queryClient } from '@/lib/query-client';
 
 
@@ -14,10 +16,13 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         </div>
       }
     >    
-          <QueryClientProvider client={queryClient}>
-            {import.meta.env.DEV && <ReactQueryDevtools />}        
-              {children}
-          </QueryClientProvider>
+      <ScrollBehaviorProvider>
+        <QueryClientProvider client={queryClient}>
+          {import.meta.env.DEV && <ReactQueryDevtools />}        
+          {children}
+          <Toaster /> 
+        </QueryClientProvider>
+      </ScrollBehaviorProvider>
     </React.Suspense>
   );
 };

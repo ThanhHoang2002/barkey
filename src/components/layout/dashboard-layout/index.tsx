@@ -4,6 +4,8 @@ import { Outlet } from 'react-router-dom';
 import DashboardHeader from './dashboard-header';
 import DashboardSidebar from './dashboard-sidebar';
 
+import { useScrollToTop } from '@/hooks/useScrollToTop';
+
 
 type DashboardLayoutProps = {
   children?: ReactNode;
@@ -11,6 +13,9 @@ type DashboardLayoutProps = {
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  // Use the scroll to top hook
+  useScrollToTop();
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">

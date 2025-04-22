@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
@@ -5,6 +6,8 @@ import { ProductCard } from './ProductCard';
 import { getProductBySlug, getProductsByType } from '../api/getProducts';
 
 import { Button } from '@/components/ui/button';
+import { Image } from '@/components/ui/image';
+import { useToast } from '@/hooks/use-toast';
 import { useCartStore } from '@/stores/cartStore';
 
 const ProductDetail = () => {
@@ -13,7 +16,7 @@ const ProductDetail = () => {
   const { addItem } = useCartStore();
   const product = getProductBySlug(slug || '');
   const relatedProducts = getProductsByType('bestseller').slice(0, 4);
-
+  const { toast } = useToast();
   useEffect(() => {
     // Cuộn lên đầu trang khi chuyển sản phẩm
     window.scrollTo(0, 0);
@@ -21,7 +24,7 @@ const ProductDetail = () => {
 
   if (!product) {
     return (
-      <div className="container mx-auto px-4 py-12">
+      <motion.div className="container mx-auto px-4 py-12" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
         <div className="text-center">
           <h2 className="mb-4 text-2xl font-bold">Không tìm thấy sản phẩm</h2>
           <p className="mb-8 text-gray-600">Sản phẩm này không tồn tại hoặc đã bị xóa.</p>
@@ -29,7 +32,7 @@ const ProductDetail = () => {
             <Button>Quay lại trang sản phẩm</Button>
           </Link>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
@@ -47,10 +50,15 @@ const ProductDetail = () => {
       image: product.image,
       quantity: quantity,
     });
+    toast({
+      title: 'Thêm vào giỏ hàng',
+      description: 'Đã thêm sản phẩm vào giỏ hàng',
+      variant: 'success',
+    });
   };
 
   return (
-    <div className="py-8">
+    <motion.div className="py-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
       <div className="container mx-auto px-4">
         {/* Breadcrumbs */}
         <div className="mb-6 flex items-center text-sm">
@@ -69,10 +77,11 @@ const ProductDetail = () => {
         <div className="grid gap-8 md:grid-cols-2">
           {/* Product Image */}
           <div className="overflow-hidden rounded-lg">
-            <img
+            <Image
               src={product.image}
               alt={product.name}
               className="h-full w-full object-cover"
+              containerClassName="h-full aspect-square"
             />
           </div>
 
@@ -189,7 +198,7 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

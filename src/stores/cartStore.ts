@@ -17,7 +17,6 @@ interface CartStore {
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
 }
-
 export const useCartStore = create<CartStore>((set) => ({
   items: [],
   totalItems: 0,

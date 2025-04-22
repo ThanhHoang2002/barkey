@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { 
   ArrowUp, 
   ArrowDown, 
@@ -19,7 +20,7 @@ const DashboardPage = () => {
 
   return (
     <DashboardLayout>
-      <div className="mb-8 sm:flex sm:items-center sm:justify-between">
+      <motion.div className="mb-8 sm:flex sm:items-center sm:justify-between" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
         <div className="mb-4 sm:mb-0">
           <h1 className="text-2xl font-bold md:text-3xl">Bakery Dashboard</h1>
         </div>
@@ -73,7 +74,7 @@ const DashboardPage = () => {
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Cards */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">

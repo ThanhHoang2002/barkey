@@ -1,5 +1,6 @@
 /* eslint-disable unused-imports/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -16,7 +17,6 @@ const ProductsPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [filters, setFilters] = useState<ProductFilter>({});
   const [loading, setLoading] = useState(true);
-
   // Lọc theo loại sản phẩm từ URL query params
   useEffect(() => {
     const type = searchParams.get('type');
@@ -73,17 +73,8 @@ const ProductsPage = () => {
     
     return true;
   });
-
-  if (loading) {
-    return (
-      <div className="flex min-h-[300px] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-      </div>
-    );
-  }
-
   return (
-    <div className="py-8">
+    <motion.div className="py-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
       <div className="container mx-auto px-4">
         <h1 className="mb-8 text-3xl font-bold">Tất cả sản phẩm</h1>
         
@@ -177,7 +168,7 @@ const ProductsPage = () => {
             {filteredProducts.length > 0 ? (
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {filteredProducts.map(product => (
-                  <ProductCard key={product.id} product={product} />
+                  <ProductCard key={product.id} product={product} isLoading={loading} />
                 ))}
               </div>
             ) : (
@@ -192,7 +183,7 @@ const ProductsPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
+import { Image } from '@/components/ui/image';
 import { AboutSection as AboutSectionType } from '@/types/product';
 
 interface AboutSectionProps {
@@ -26,10 +27,11 @@ export const AboutSection = ({ data }: AboutSectionProps) => {
             )}
           </div>
           <div className="order-1 lg:order-2">
-            <img
+            <Image
               src={data.image}
               alt={data.title}
               className="w-full rounded-lg object-cover shadow-md"
+              containerClassName="w-full rounded-lg shadow-md aspect-[4/3]"
             />
           </div>
         </div>

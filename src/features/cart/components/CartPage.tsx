@@ -1,31 +1,54 @@
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
+import { Image } from '@/components/ui/image';
+import { SimpleConfirmDialog } from '@/components/ui/simple-confirm-dialog';
+import { useToast } from '@/hooks/use-toast';
 import { useCartStore } from '@/stores/cartStore';
 
 const CartPage = () => {
   const { items, totalPrice, updateQuantity, removeItem, clearCart } = useCartStore();
   const [couponCode, setCouponCode] = useState('');
-
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  const { toast } = useToast();
+  
   const handleQuantityChange = (id: string, quantity: number) => {
     if (quantity >= 1) {
       updateQuantity(id, quantity);
     }
+    toast({
+      title: 'Cập nhật số lượng',
+      description: 'Đã cập nhật số lượng sản phẩm',
+      variant: 'success',
+    });
   };
 
   const handleRemoveItem = (id: string) => {
     removeItem(id);
+    toast({
+      title: 'Xóa sản phẩm',
+      description: 'Đã xóa sản phẩm khỏi giỏ hàng',
+      variant: 'destructive',
+    });
   };
 
   const handleClearCart = () => {
-    if (window.confirm('Bạn có chắc chắn muốn xóa tất cả sản phẩm khỏi giỏ hàng?')) {
-      clearCart();
-    }
+    setIsConfirmDialogOpen(true);
+  };
+
+  const confirmClearCart = () => {
+    clearCart();
+    toast({
+      title: 'Đã xóa giỏ hàng',
+      description: 'Tất cả sản phẩm đã được xóa khỏi giỏ hàng',
+      variant: 'destructive',
+    });
   };
 
   return (
-    <div className="py-8">
+    <motion.div className="py-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
       <div className="container mx-auto px-4">
         <h1 className="mb-8 text-3xl font-bold">Giỏ hàng</h1>
 
@@ -61,10 +84,11 @@ const CartPage = () => {
                         <tr key={item.id} className="border-b">
                           <td className="p-4">
                             <div className="flex items-center gap-4">
-                              <img
+                              <Image
                                 src={item.image}
                                 alt={item.name}
                                 className="h-16 w-16 rounded-md object-cover"
+                                containerClassName="h-16 w-16 rounded-md"
                               />
                               <div>
                                 <h3 className="font-medium">{item.name}</h3>
@@ -199,8 +223,24 @@ const CartPage = () => {
             </div>
           </div>
         )}
+        
+        <SimpleConfirmDialog 
+          isOpen={isConfirmDialogOpen}
+          onClose={() => setIsConfirmDialogOpen(false)}
+          onConfirm={confirmClearCart}
+          title="Xóa giỏ hàng"
+          description="Bạn có chắc chắn muốn xóa tất cả sản phẩm khỏi giỏ hàng?"
+          confirmText="Xóa tất cả"
+          cancelText="Hủy"
+          variant="destructive"
+          icon={
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          }
+        />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

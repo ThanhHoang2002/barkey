@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 
+import { Image } from '@/components/ui/image';
 import { Category } from '@/types/product';
 
 interface CategoryGridProps {
@@ -18,10 +19,11 @@ export const CategoryGrid = ({ categories }: CategoryGridProps) => {
               className="group relative overflow-hidden rounded-lg"
             >
               <div className="aspect-[4/3] w-full overflow-hidden">
-                <img
+                <Image
                   src={category.image || 'https://placehold.co/400x300/e2e8f0/64748b?text=Category'}
                   alt={category.name}
                   className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  containerClassName="h-full"
                 />
               </div>
               <div className="absolute inset-0 flex items-center justify-center bg-black/40 transition-all group-hover:bg-black/50">

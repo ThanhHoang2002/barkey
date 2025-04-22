@@ -1,7 +1,7 @@
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-
 interface ContactFormData {
   name: string;
   email: string;
@@ -49,7 +49,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="py-8">
+    <motion.div className="py-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
       <div className="container mx-auto px-4">
         <h1 className="mb-8 text-3xl font-bold">Liên hệ</h1>
         
@@ -133,7 +133,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h3 className="font-medium">Email</h3>
-                    <p className="text-gray-600">info@nguyenson.vn</p>
+                    <p className="text-gray-600">info@duccuong.vn</p>
                   </div>
                 </div>
                 
@@ -356,7 +356,7 @@ const ContactPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

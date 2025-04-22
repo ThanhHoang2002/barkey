@@ -12,6 +12,7 @@ const ProductsPage = lazy(() => import('@/features/products/components/ProductsP
 const ProductDetail = lazy(() => import('@/features/products/components/ProductDetail'));
 const CartPage = lazy(() => import('@/features/cart/components/CartPage'));
 const ContactPage = lazy(() => import('@/features/contact/components/ContactPage'));
+const AboutPage = lazy(() => import('@/features/about/components/AboutPage'));
 const DashboardPage = lazy(() => import('@/features/dashboard/pages/dashboard-page'));
 
 // Loading component
@@ -74,6 +75,14 @@ export const AppRouter = () => {
                     element: (
                       <Suspense fallback={<LoadingFallback />}>
                         <CartPage />
+                      </Suspense>
+                    )
+                },
+                {
+                    path: '/about',
+                    element: (
+                      <Suspense fallback={<LoadingFallback />}>
+                        <AboutPage />
                       </Suspense>
                     )
                 },
