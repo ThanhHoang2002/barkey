@@ -1,4 +1,7 @@
-import { ChatMessage } from '../hooks/useChatWidget';
+import { ChatMessage } from '../hooks/useChatQuery';
+
+import { authStore } from '@/features/auth/stores/authStore';
+import axiosChat from '@/lib/axiosChat';
 
 export interface ChatThreadMessage {
   id: string;
@@ -29,56 +32,58 @@ export interface ChatResponse {
   thread_id: string;
 }
 
-const AUTH_TOKEN = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0dWFubnYiLCJwZXJtaXNzaW9uIjpbIlJPTEVfYWRtaW4iXSwiZXhwIjoxNzUyNjU2ODgwLCJpYXQiOjE3NDQwMTY4ODAsInVzZXIiOnsiaWQiOjEsInVzZXJuYW1lIjoidHVhbm52IiwibmFtZSI6Ik5ndXnhu4VuIFbEg24gVHXhuqVuIn19.XyP2aMpPpn1Q7ltzxcmS3s6CaX5oJk7k8jlJeIrR9UcNKH-ayQVHV9Aa6QeXvYYuRnAokbjdWaaYYmIQ8juzNA';
-const USER_ID = '1';
+/**
+ * Gửi tin nhắn chat
+ * @param message Nội dung tin nhắn
+ * @param threadId Thread ID (nếu có)
+ */
+export const sendMessage = async (message: string, threadId?: string): Promise<ChatResponse> => {
+  const currentUser = authStore.getCurrentUser();
+  const userId = currentUser?.id.toString() || '1';
+  const token = localStorage.getItem('accessToken') || '';
+  
+  const { data } = await axiosChat.post<ChatResponse>('/chat', {
+    message,
+    thread_id: threadId,
+    user_id: userId,
+    auth_token: 'Bearer ' + token,
+  });
+  
+  return data;
+};
 
-const API_BASE_URL = '/api';
+/**
+ * Lấy lịch sử chat theo thread ID
+ * @param threadId Thread ID
+ */
+export const getChatHistory = async (threadId: string): Promise<ChatThreadMessage[]> => {
+  const token = localStorage.getItem('accessToken') || '';
+  
+  const { data } = await axiosChat.get<ChatThreadMessage[]>(`/threads/${threadId}/history`, {
+    params: { auth_token: token }
+  });
+  
+  return data;
+};
 
+/**
+ * Chuyển đổi dữ liệu từ API thành định dạng của UI
+ * @param messages Tin nhắn từ API
+ */
+export const mapThreadMessageToChatMessage = (messages: ChatThreadMessage[]): ChatMessage[] => {
+  return messages.map(msg => ({
+    id: msg.id,
+    message: msg.content,
+    sender: msg.role === 'user' ? 'user' : 'bot',
+    createdAt: msg.created_at,
+  }));
+};
+
+/**
+ * API client cho các thao tác chat
+ */
 export const chatApi = {
-  // Gửi tin nhắn chat
-  sendMessage: async (message: string, threadId?: string): Promise<ChatResponse> => {
-    const response = await fetch(`${API_BASE_URL}/chat`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message,
-        thread_id: threadId,
-        user_id: USER_ID,
-        auth_token: AUTH_TOKEN,
-      } as SendChatRequest),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to send message');
-    }
-
-    return response.json();
-  },
-
-  // Lấy lịch sử chat
-  getChatHistory: async (threadId: string): Promise<ChatThreadMessage[]> => {
-    const response = await fetch(`${API_BASE_URL}/threads/${threadId}/history`, {
-      headers: {
-        'Authorization': AUTH_TOKEN,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to get chat history');
-    }
-
-    return response.json();
-  },
-
-  // Chuyển đổi dữ liệu từ API thành format của ứng dụng
-  mapThreadMessageToChatMessage: (messages: ChatThreadMessage[]): ChatMessage[] => {
-    return messages.map(msg => ({
-      id: msg.id,
-      message: msg.content,
-      sender: msg.role === 'user' ? 'user' : 'bot',
-      createdAt: msg.created_at,
-    }));
-  }
+  sendMessage,
+  getChatHistory,
+  mapThreadMessageToChatMessage,
 }; 

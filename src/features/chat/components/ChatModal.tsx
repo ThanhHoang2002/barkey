@@ -2,13 +2,15 @@ import { motion, AnimatePresence } from 'motion/react';
 import React from 'react';
 
 import { ChatMessage } from './ChatMessage';
-import { ChatMessage as ChatMessageType } from '../hooks/useChatWidget';
+import { ChatTypingIndicator } from './ChatTypingIndicator';
+import { ChatMessage as ChatMessageType } from '../hooks/useChatQuery';
 
 type ChatModalProps = {
   isOpen: boolean;
   messages: ChatMessageType[];
   inputValue: string;
   loading: boolean;
+  isTyping?: boolean;
   messagesEndRef: React.RefObject<HTMLDivElement | null>;
   onClose: () => void;
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -21,6 +23,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({
   messages,
   inputValue,
   loading,
+  isTyping = false,
   messagesEndRef,
   onClose,
   onInputChange,
@@ -64,6 +67,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({
               {messages.map((msg) => (
                 <ChatMessage key={msg.id} message={msg} />
               ))}
+              {isTyping && <ChatTypingIndicator />}
               <div ref={messagesEndRef} />
             </div>
             <div className="flex items-center gap-2 border-t bg-white px-4 py-2">

@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import React from 'react';
 
-import type { ChatMessage as ChatMessageType } from '../../chat/hooks/useChatWidget';
+import type { ChatMessage as ChatMessageType } from '../../chat/hooks/useChatQuery';
 
 interface ChatMessageProps {
   message: ChatMessageType;
@@ -22,10 +22,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       // Hỗ trợ italic
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      // Hỗ trợ links
-      .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline hover:text-blue-800">$1</a>')
-      // Hỗ trợ images
-      .replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1" class="my-2 max-h-40 rounded-md" />')
+      // Hỗ trợ links      // Hỗ trợ images
+      .replace(/!\[(.*?)\]\((.*?)\)/g, '<strong>Ảnh minh họa: </strong> <img src="$2" alt="$1" class="my-2 max-h-40 rounded-md" />')
       // Hỗ trợ list
       .replace(/- (.*)/g, '<li class="ml-4">$1</li>')
       // Hỗ trợ horizontal rule

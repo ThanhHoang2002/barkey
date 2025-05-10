@@ -1,23 +1,65 @@
 import { motion } from 'motion/react';
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 import { ChatModal } from './ChatModal';
-import { useChatWidget } from '../hooks/useChatWidget';
+import { useChatQuery } from '../hooks/useChatQuery';
 
 export const ChatWidget: React.FC = () => {
   const {
     isOpen,
-    handleOpen,
-    handleClose,
     messages,
     inputValue,
+    isLoading,
+    isTyping,
+    handleOpen,
+    handleClose,
     handleInputChange,
     handleSendMessage,
-    handleKeyDown,
-    loading,
-    messagesEndRef,
-  } = useChatWidget();
+  } = useChatQuery();
 
+  // Ref để scroll xuống cuối danh sách tin nhắn
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  // State để theo dõi số lượng tin nhắn, phục vụ việc scroll
+  const [prevMessageCount, setPrevMessageCount] = useState(0);
+  
+  // Scroll xuống cuối khi có tin nhắn mới, typing indicator xuất hiện hoặc modal vừa mở
+  useEffect(() => {
+    if (isOpen && messagesEndRef.current) {
+      // Chỉ scroll khi có tin nhắn mới hoặc typing indicator xuất hiện
+      if (messages.length > prevMessageCount || isTyping) {
+        // Sử dụng setTimeout để đảm bảo DOM đã được cập nhật trước khi scroll
+        setTimeout(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }, 10);
+        
+        // Cập nhật số lượng tin nhắn đã thấy
+        setPrevMessageCount(messages.length);
+      }
+    }
+  }, [messages, isOpen, isTyping, prevMessageCount]);
+  
+  // Cập nhật lại prevMessageCount khi đóng và mở lại chat
+  useEffect(() => {
+    if (isOpen) {
+      setPrevMessageCount(messages.length);
+    }
+  }, [isOpen, messages.length]);
+
+  // Hàm gửi tin nhắn bao bọc để đảm bảo UI được cập nhật ngay
+  const handleSendMessageWithUIUpdate = () => {
+    // Khi gửi tin nhắn mới, cập nhật ngay prevMessageCount để không trigger scroll thừa
+    setPrevMessageCount(prevCount => prevCount + 1);
+    
+    // Gọi hàm gửi tin nhắn gốc
+    handleSendMessage();
+    
+    // Force scroll xuống cuối ngay sau khi đã thêm tin nhắn mới
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 50);
+  };
+  
   return (
     <>
       <motion.button
@@ -39,12 +81,13 @@ export const ChatWidget: React.FC = () => {
         isOpen={isOpen}
         messages={messages}
         inputValue={inputValue}
-        loading={loading}
+        loading={isLoading}
+        isTyping={isTyping}
         messagesEndRef={messagesEndRef}
         onClose={handleClose}
         onInputChange={handleInputChange}
-        onSendMessage={handleSendMessage}
-        onKeyDown={handleKeyDown}
+        onSendMessage={handleSendMessageWithUIUpdate}
+        onKeyDown={(e) => { if (e.key === 'Enter') handleSendMessageWithUIUpdate(); }}
       />
     </>
   );

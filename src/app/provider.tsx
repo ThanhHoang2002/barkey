@@ -17,7 +17,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     >    
           <QueryClientProvider client={queryClient}>
             {/* {import.meta.env.DEV && <ReactQueryDevtools />}         */}
-              {children}
+             <ScrollBehaviorProvider> {children}</ScrollBehaviorProvider>
+              <Toaster />   
           </QueryClientProvider>
     </React.Suspense>
   );

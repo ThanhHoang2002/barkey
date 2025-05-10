@@ -1,9 +1,9 @@
 import { useState, useEffect, memo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AuthDialog } from '@/components/auth/auth-dialog';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuthFormStore } from '@/features/auth/stores/authFormStore';
+import useAuthStore from '@/features/auth/stores/authStore';
 import { useCartStore } from '@/stores/cartStore';
 
 const navigation = [
@@ -17,8 +17,9 @@ export const Header = memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { totalItems } = useCartStore();
-  const { isAuthDialogOpen, authMode, openAuthDialog, closeAuthDialog, setAuthMode } = useAuth();
-
+  const { setIsOpen } = useAuthFormStore();
+  const { currentUser, logout } = useAuthStore();
+  
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
@@ -34,6 +35,11 @@ export const Header = memo(() => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+  
+  const handleLogout = () => {
+    logout();
+  };
+  
   return (
     <header className={`sticky top-0 z-50 w-full transition-shadow ${isScrolled ? 'bg-white shadow-md' : 'bg-white'}`}>
       {/* Top Bar */}
@@ -41,23 +47,40 @@ export const Header = memo(() => {
         <div className="container mx-auto flex justify-between px-4">
           <span className="text-sm">Hotline: 02438222228</span>
           <div className="flex gap-4">
-            <button 
-              onClick={() => openAuthDialog("login")} 
-              className="text-sm hover:underline"
-              aria-label="Đăng nhập"
-              tabIndex={0}
-            >
-              Đăng nhập
-            </button>
-            <span className="text-sm">|</span>
-            <button 
-              onClick={() => openAuthDialog("register")} 
-              className="text-sm hover:underline"
-              aria-label="Đăng ký"
-              tabIndex={0}
-            >
-              Đăng ký
-            </button>
+            {currentUser ? (
+              <>
+                <span className="text-sm">Chào mừng {currentUser.name}</span>
+                <span className="text-sm">|</span>
+                <button 
+                  onClick={handleLogout} 
+                  className="text-sm hover:underline"
+                  aria-label="Đăng xuất"
+                  tabIndex={0}
+                >
+                  Đăng xuất
+                </button>
+              </>
+            ) : (
+              <>
+                <button 
+                  onClick={() => setIsOpen(true)} 
+                  className="text-sm hover:underline"
+                  aria-label="Đăng nhập"
+                  tabIndex={0}
+                >
+                  Đăng nhập
+                </button>
+                <span className="text-sm">|</span>
+                <button 
+                  onClick={() => setIsOpen(true)} 
+                  className="text-sm hover:underline"
+                  aria-label="Đăng ký"
+                  tabIndex={0}
+                >
+                  Đăng ký
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -151,15 +174,27 @@ export const Header = memo(() => {
               </Link>
             ))}
             <div className="flex flex-col space-y-2 pt-4">
-              <Button
-                className="w-full"
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  openAuthDialog("login");
-                }}
-              >
-                Đăng nhập / Đăng ký
-              </Button>
+              {currentUser ? (
+                <Button
+                  className="w-full"
+                  onClick={() => {
+                    handleLogout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Đăng xuất
+                </Button>
+              ) : (
+                <Button
+                  className="w-full"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsOpen(true);
+                  }}
+                >
+                  Đăng nhập / Đăng ký
+                </Button>
+              )}
               <Button
                 className="w-full"
                 variant="outline"
@@ -174,14 +209,6 @@ export const Header = memo(() => {
           </nav>
         </div>
       </div>
-
-      {/* Auth Dialog */}
-      <AuthDialog 
-        isOpen={isAuthDialogOpen} 
-        onClose={closeAuthDialog} 
-        initialMode={authMode}
-        onModeChange={setAuthMode}
-      />
     </header>
   );
 });
