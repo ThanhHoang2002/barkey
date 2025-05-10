@@ -11,7 +11,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Image } from '@/components/ui/image'
 import { Input } from "@/components/ui/input"
 
 type AuthMode = "login" | "register"
@@ -185,12 +184,6 @@ export const AuthDialog = ({
                     : "Đăng ký tài khoản để khám phá thế giới bánh ngọt tuyệt vời và nhận nhiều ưu đãi hấp dẫn."
                   }
                 </p>
-                <Image 
-                  src="https://freesvg.org/img/1547510251.png" 
-                  alt="Bakery Logo" 
-                  className="mt-4 h-40 w-40 object-contain opacity-80"
-                  containerClassName="mt-4 h-40 w-40"
-                />
               </div>
             </div>
           </div>

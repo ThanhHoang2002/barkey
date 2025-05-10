@@ -74,7 +74,7 @@ const ProductsPage = () => {
     return true;
   });
   return (
-    <motion.div className="py-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+    <motion.div className="py-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
       <div className="container mx-auto px-4">
         <h1 className="mb-8 text-3xl font-bold">Tất cả sản phẩm</h1>
         

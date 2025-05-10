@@ -5,7 +5,7 @@ import { Image } from '@/components/ui/image';
 
 const AboutPage: React.FC = () => {
   return (
-    <motion.div className="bg-background py-12 md:py-16" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+    <motion.div className="bg-background py-12 md:py-16" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
       <div className="container mx-auto px-4">
         {/* Breadcrumb */}
         <div className="mb-8">

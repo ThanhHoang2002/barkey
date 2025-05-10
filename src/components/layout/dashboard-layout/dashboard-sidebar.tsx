@@ -2,13 +2,10 @@ import {
   LayoutDashboard, 
   ShoppingBasket, 
   Cake, 
-  Users, 
-  BarChart, 
-  Settings,
-  ChevronDown,
+  Users,
   X
 } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 type SidebarProps = {
@@ -22,11 +19,6 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   const trigger = useRef<HTMLButtonElement>(null);
   const sidebar = useRef<HTMLDivElement>(null);
-
-  const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
-  const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true'
-  );
 
   // Close on click outside
   useEffect(() => {
@@ -54,14 +46,6 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     return () => document.removeEventListener('keydown', keyHandler);
   });
 
-  useEffect(() => {
-    localStorage.setItem('sidebar-expanded', sidebarExpanded.toString());
-    if (sidebarExpanded) {
-      document.querySelector('body')?.classList.add('sidebar-expanded');
-    } else {
-      document.querySelector('body')?.classList.remove('sidebar-expanded');
-    }
-  }, [sidebarExpanded]);
 
   return (
     <div>
@@ -168,35 +152,7 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     <span className="ml-3">Customers</span>
                   </div>
                 </NavLink>
-              </li>
-              {/* Analytics */}
-              <li className={`mb-0.5 rounded-sm px-3 py-2 ${pathname.includes('/admin/analytics') && 'bg-primary/10'}`}>
-                <NavLink
-                  to="/admin/analytics"
-                  className={`block truncate text-sm font-medium ${
-                    pathname.includes('/admin/analytics') ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <BarChart className="h-5 w-5" />
-                    <span className="ml-3">Analytics</span>
-                  </div>
-                </NavLink>
-              </li>
-              {/* Settings */}
-              <li className={`mb-0.5 rounded-sm px-3 py-2 ${pathname.includes('/admin/settings') && 'bg-primary/10'}`}>
-                <NavLink
-                  to="/admin/settings"
-                  className={`block truncate text-sm font-medium ${
-                    pathname.includes('/admin/settings') ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <Settings className="h-5 w-5" />
-                    <span className="ml-3">Settings</span>
-                  </div>
-                </NavLink>
-              </li>
+              </li> 
             </ul>
           </div>
           
@@ -223,16 +179,7 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             </ul>
           </div>
         </div>
-
-        {/* Expand / collapse button */}
-        <div className="mt-auto hidden justify-end border-t border-border px-3 py-2 lg:inline-flex">
-          <div className="px-3 py-2">
-            <button onClick={() => setSidebarExpanded(!sidebarExpanded)}>
-              <span className="sr-only">Expand / collapse sidebar</span>
-              <ChevronDown className={`h-6 w-6 fill-current text-muted-foreground transition-all ${sidebarExpanded ? 'rotate-180' : ''}`} />
-            </button>
-          </div>
-        </div>
+                  
       </div>
     </div>
   );

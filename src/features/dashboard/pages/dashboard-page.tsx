@@ -20,7 +20,7 @@ const DashboardPage = () => {
 
   return (
     <DashboardLayout>
-      <motion.div className="mb-8 sm:flex sm:items-center sm:justify-between" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+      <motion.div className="mb-8 sm:flex sm:items-center sm:justify-between" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
         <div className="mb-4 sm:mb-0">
           <h1 className="text-2xl font-bold md:text-3xl">Bakery Dashboard</h1>
         </div>

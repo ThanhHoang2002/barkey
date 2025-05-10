@@ -14,6 +14,9 @@ const CartPage = lazy(() => import('@/features/cart/components/CartPage'));
 const ContactPage = lazy(() => import('@/features/contact/components/ContactPage'));
 const AboutPage = lazy(() => import('@/features/about/components/AboutPage'));
 const DashboardPage = lazy(() => import('@/features/dashboard/pages/dashboard-page'));
+const AdminProductsPage = lazy(() => import('@/features/dashboard/products/components/AdminProductsPage'));
+const AdminOrdersPage = lazy(() => import('@/features/dashboard/orders/components/AdminOrdersPage'));
+const AdminCustomersPage = lazy(() => import('@/features/dashboard/customers/components/AdminCustomersPage'));
 
 // Loading component
 const LoadingFallback = () => (
@@ -114,23 +117,29 @@ export const AppRouter = () => {
             path: '/admin/products',
             element: (
                 <DashboardLayout>
-                    <UnderConstructionPage title="Products" />
+                    <Suspense fallback={<LoadingFallback />}>
+                        <AdminProductsPage />
+                    </Suspense>
                 </DashboardLayout>
             ),
         },
         {
             path: '/admin/orders',
             element: (
-                <DashboardLayout>
-                    <UnderConstructionPage title="Orders" />
-                </DashboardLayout>
-            ),
+              <DashboardLayout>
+                <Suspense fallback={<LoadingFallback />}>
+                  <AdminOrdersPage />
+                </Suspense>
+              </DashboardLayout>
+            )
         },
         {
             path: '/admin/customers',
             element: (
                 <DashboardLayout>
-                    <UnderConstructionPage title="Customers" />
+                    <Suspense fallback={<LoadingFallback />}>
+                        <AdminCustomersPage />
+                    </Suspense>
                 </DashboardLayout>
             ),
         },

@@ -24,7 +24,7 @@ const ProductDetail = () => {
 
   if (!product) {
     return (
-      <motion.div className="container mx-auto px-4 py-12" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+      <motion.div className="container mx-auto px-4 py-12" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
         <div className="text-center">
           <h2 className="mb-4 text-2xl font-bold">Không tìm thấy sản phẩm</h2>
           <p className="mb-8 text-gray-600">Sản phẩm này không tồn tại hoặc đã bị xóa.</p>
@@ -58,7 +58,7 @@ const ProductDetail = () => {
   };
 
   return (
-    <motion.div className="py-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+    <motion.div className="py-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
       <div className="container mx-auto px-4">
         {/* Breadcrumbs */}
         <div className="mb-6 flex items-center text-sm">
