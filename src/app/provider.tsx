@@ -1,6 +1,8 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 
+import { ScrollBehaviorProvider } from '@/components/providers/ScrollBehaviorProvider';
+import { Toaster } from '@/components/ui/toaster';
 import { queryClient } from '@/lib/query-client';
 
 

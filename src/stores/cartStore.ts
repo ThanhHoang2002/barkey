@@ -12,12 +12,11 @@ interface CartStore {
   items: CartItem[];
   totalItems: number;
   totalPrice: number;
-  addItem: (item: Omit<CartItem, 'quantity'>) => void;
+  addItem: (item: CartItem) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
 }
-
 export const useCartStore = create<CartStore>((set) => ({
   items: [],
   totalItems: 0,
@@ -28,20 +27,20 @@ export const useCartStore = create<CartStore>((set) => ({
     
     if (existingItem) {
       const updatedItems = state.items.map((i) => 
-        i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+        i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
       );
       
       return {
         items: updatedItems,
-        totalItems: state.totalItems + 1,
-        totalPrice: state.totalPrice + item.price,
+        totalItems: state.totalItems + item.quantity,
+        totalPrice: state.totalPrice + item.price * item.quantity,
       };
     }
     
     return {
-      items: [...state.items, { ...item, quantity: 1 }],
-      totalItems: state.totalItems + 1,
-      totalPrice: state.totalPrice + item.price,
+      items: [...state.items, { ...item, quantity: item.quantity }],
+      totalItems: state.totalItems + item.quantity,
+      totalPrice: state.totalPrice + item.price * item.quantity,
     };
   }),
   

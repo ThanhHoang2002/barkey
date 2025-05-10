@@ -1,25 +1,23 @@
 export interface Product {
   id: string;
   name: string;
-  slug: string;
+  description: string;
   price: number;
   image: string;
-  images?: string[];
   category: Category;
-  isFeatured?: boolean;
-  isBestSeller?: boolean;
   isNew?: boolean;
-  description?: string;
-  availableSizes?: string[];
+  isBestSeller?: boolean;
   stock?: number;
+  slug: string;
+  rating?: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Category {
   id: string;
   name: string;
   slug: string;
-  description?: string;
-  image?: string;
 }
 
 export interface Banner {

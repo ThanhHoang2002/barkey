@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
+import { Image } from '@/components/ui/image';
 import { Banner } from '@/types/product';
 
 interface HeroProps {
@@ -33,10 +34,16 @@ export const Hero = ({ banners }: HeroProps) => {
               index === currentBanner ? 'opacity-100' : 'pointer-events-none opacity-0'
             }`}
           >
-            <img
+            <Image
               src={banner.image}
               alt={banner.title}
               className="h-full w-full object-cover"
+              containerClassName="h-full"
+              fallback={
+                <div className="flex h-full w-full items-center justify-center bg-gray-200">
+                  <div className="animate-pulse text-gray-400">Đang tải...</div>
+                </div>
+              }
             />
             <div className="absolute inset-0 flex items-center bg-black/30">
               <div className="container mx-auto px-4">

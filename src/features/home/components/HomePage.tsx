@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 import { AboutSection } from './AboutSection';
 import { Hero } from './Hero';
 import { getAboutInfo } from '../api/getAboutInfo';
@@ -26,7 +28,7 @@ const HomePage = () => {
   const aboutInfo = getAboutInfo();
 
   return (
-    <div>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
       <Hero banners={banners} />
       
       <CategoryGrid categories={categories} />
@@ -44,7 +46,7 @@ const HomePage = () => {
       />
       
       <AboutSection data={aboutInfo} />
-    </div>
+    </motion.div>
   );
 };
 

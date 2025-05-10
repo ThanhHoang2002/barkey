@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { Link } from 'react-router-dom';
 
+import { AuthDialog } from '@/components/auth/auth-dialog';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
 import { useCartStore } from '@/stores/cartStore';
 
 const navigation = [
@@ -11,10 +13,11 @@ const navigation = [
   { name: 'Liên hệ', href: '/contact' },
 ];
 
-export const Header = () => {
+export const Header = memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { totalItems } = useCartStore();
+  const { isAuthDialogOpen, authMode, openAuthDialog, closeAuthDialog, setAuthMode } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,7 +34,6 @@ export const Header = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-
   return (
     <header className={`sticky top-0 z-50 w-full transition-shadow ${isScrolled ? 'bg-white shadow-md' : 'bg-white'}`}>
       {/* Top Bar */}
@@ -39,13 +41,23 @@ export const Header = () => {
         <div className="container mx-auto flex justify-between px-4">
           <span className="text-sm">Hotline: 02438222228</span>
           <div className="flex gap-4">
-            <Link to="/account/login" className="text-sm hover:underline">
+            <button 
+              onClick={() => openAuthDialog("login")} 
+              className="text-sm hover:underline"
+              aria-label="Đăng nhập"
+              tabIndex={0}
+            >
               Đăng nhập
-            </Link>
+            </button>
             <span className="text-sm">|</span>
-            <Link to="/account/register" className="text-sm hover:underline">
+            <button 
+              onClick={() => openAuthDialog("register")} 
+              className="text-sm hover:underline"
+              aria-label="Đăng ký"
+              tabIndex={0}
+            >
               Đăng ký
-            </Link>
+            </button>
           </div>
         </div>
       </div>
@@ -55,7 +67,7 @@ export const Header = () => {
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0">
-            <h1 className="text-2xl font-bold text-primary">Nguyễn Sơn Bakery</h1>
+            <h1 className="text-2xl font-bold text-primary">Cosmo Bakery</h1>
           </Link>
 
           {/* Desktop Navigation */}
@@ -138,9 +150,19 @@ export const Header = () => {
                 {item.name}
               </Link>
             ))}
-            <div className="pt-4">
+            <div className="flex flex-col space-y-2 pt-4">
               <Button
                 className="w-full"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  openAuthDialog("login");
+                }}
+              >
+                Đăng nhập / Đăng ký
+              </Button>
+              <Button
+                className="w-full"
+                variant="outline"
                 onClick={() => {
                   setIsMobileMenuOpen(false);
                 }}
@@ -152,6 +174,15 @@ export const Header = () => {
           </nav>
         </div>
       </div>
+
+      {/* Auth Dialog */}
+      <AuthDialog 
+        isOpen={isAuthDialogOpen} 
+        onClose={closeAuthDialog} 
+        initialMode={authMode}
+        onModeChange={setAuthMode}
+      />
     </header>
   );
-}; 
+});
+Header.displayName = 'Header';

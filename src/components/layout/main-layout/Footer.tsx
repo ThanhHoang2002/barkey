@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 
-export const Footer = () => {
+export const Footer = memo(() => {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-16">
@@ -11,7 +12,7 @@ export const Footer = () => {
           <div>
             <h3 className="mb-4 text-lg font-bold">Giới thiệu</h3>
             <p className="mb-4 text-sm text-gray-300">
-              Xuất thân trong gia đình có nghề làm bánh mỳ truyền thống, Chef Nguyễn Sơn cũng có thời gian dài làm việc tại Công ty Bodega rồi Sofitel Metropole. Anh có hơn 10 năm kinh nghiệm làm Chef bánh tại khách sạn danh tiếng Sofitel Metropole Legende Hanoi.
+              Xuất thân trong gia đình có nghề làm bánh mỳ truyền thống, Chef Đức Cường cũng có thời gian dài làm việc tại Công ty Bodega rồi Sofitel Metropole. Anh có hơn 10 năm kinh nghiệm làm Chef bánh tại khách sạn danh tiếng Sofitel Metropole Legende Hanoi.
             </p>
             <div className="flex space-x-4">
               <a
@@ -85,11 +86,6 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/news" className="text-gray-300 transition-colors hover:text-white">
-                  Tin tức & Khuyến mại
-                </Link>
-              </li>
-              <li>
                 <Link to="/contact" className="text-gray-300 transition-colors hover:text-white">
                   Liên hệ
                 </Link>
@@ -158,7 +154,7 @@ export const Footer = () => {
                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   />
                 </svg>
-                <span className="text-gray-300">info@nguyenson.vn</span>
+                <span className="text-gray-300">info@duccuong.vn</span>
               </li>
             </ul>
           </div>
@@ -186,10 +182,11 @@ export const Footer = () => {
       <div className="border-t border-gray-800 py-6">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm text-gray-400">
-            &copy; {new Date().getFullYear()} Nguyễn Sơn Bakery. Tất cả các quyền được bảo lưu.
+            &copy; {new Date().getFullYear()} Cosmo Bakery. Tất cả các quyền được bảo lưu.
           </p>
         </div>
       </div>
     </footer>
   );
-}; 
+});
+Footer.displayName = 'Footer';
